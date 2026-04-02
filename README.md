@@ -87,6 +87,28 @@ cd frontend
 npm run build
 ```
 
+## Deployment
+
+The repository now includes a Dockerfile for a single-service deployment.
+The frontend is built into the Spring Boot application, so the backend serves
+the React app and the API from the same origin.
+
+### Render
+
+1. Create a new Web Service from this repository.
+2. Use the provided `Dockerfile`.
+3. Set `DB_PASSWORD` in the Render environment variables.
+4. Deploy the service.
+
+The application will run on port `8080` inside Render.
+
+### Local Docker Build
+
+```powershell
+docker build -t aegisiq .
+docker run -p 8080:8080 -e DB_PASSWORD="your-database-password" aegisiq
+```
+
 ## Notes
 
 - Do not commit real database credentials to the repository.
