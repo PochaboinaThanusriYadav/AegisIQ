@@ -23,6 +23,8 @@ jobs:
           cache: maven
       - name: Make Maven Wrapper Executable
         run: chmod +x mvnw
+      - name: Verify Maven Wrapper
+        run: ls -l mvnw
       - name: Build and Test with Maven
         run: ./mvnw clean verify -Dspring.profiles.active=test
         env:
