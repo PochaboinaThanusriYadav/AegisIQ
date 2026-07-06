@@ -44,6 +44,16 @@ export const getAllIncidents = () => {
   return api.get('/incidents');
 };
 
+// Paginated + filtered incident search
+export const getIncidents = ({ search, status, page = 0, size = 10 } = {}) => {
+  const params = new URLSearchParams();
+  if (search) params.append('search', search);
+  if (status) params.append('status', status);
+  params.append('page', page);
+  params.append('size', size);
+  return api.get(`/incidents?${params.toString()}`);
+};
+
 export const getIncidentById = (id) => {
   return api.get(`/incidents/${id}`);
 };

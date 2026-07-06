@@ -18,10 +18,10 @@ import java.util.Map;
 @RequestMapping("/api/incidents")
 @CrossOrigin(origins = "*")
 public class IncidentController {
-    
+
     @Autowired
     private IncidentService incidentService;
-    
+
     /**
      * Report a new incident
      */
@@ -34,43 +34,54 @@ public class IncidentController {
             incident.setDescription(request.getDescription());
             incident.setLocation(request.getLocation());
             incident.setImageUrl(request.getImageUrl());
-            
+
             Incident savedIncident = incidentService.reportIncident(incident, userId);
-            
+
             IncidentResponse response = convertToResponse(savedIncident);
-            
+
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(Map.of("error", e.getMessage()));
+                    .body(Map.of("error", e.getMessage()));
         }
     }
-    
+
     /**
-     * Get all incidents
+     * Search incidents with optional filters and pagination
      */
     @GetMapping
-    public ResponseEntity<List<IncidentResponse>> getAllIncidents() {
-        List<Incident> incidents = incidentService.getAllIncidents();
-        List<IncidentResponse> responses = new ArrayList<>();
-        
-        for (Incident incident : incidents) {
-            responses.add(convertToResponse(incident));
+    public ResponseEntity<?> getAllIncidents(
+            @RequestParam(required = false) String search,
+            @RequestParam(required = false) String status,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "timestamp") String sortBy) {
+        try {
+            var incidentPage = incidentService.searchIncidents(status, search, page, size, sortBy);
+            var responses = incidentPage.getContent().stream()
+                    .map(this::convertToResponse)
+                    .toList();
+            return ResponseEntity.ok(Map.of(
+                    "content", responses,
+                    "totalElements", incidentPage.getTotalElements(),
+                    "totalPages", incidentPage.getTotalPages(),
+                    "currentPage", incidentPage.getNumber()));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", e.getMessage()));
         }
-        
-        return ResponseEntity.ok(responses);
     }
-    
+
     /**
      * Get incident by ID
      */
     @GetMapping("/{id}")
     public ResponseEntity<?> getIncidentById(@PathVariable Long id) {
         return incidentService.getIncidentById(id)
-            .map(incident -> ResponseEntity.ok(convertToResponse(incident)))
-            .orElse(ResponseEntity.notFound().build());
+                .map(incident -> ResponseEntity.ok(convertToResponse(incident)))
+                .orElse(ResponseEntity.notFound().build());
     }
-    
+
     /**
      * Get incidents by user
      */
@@ -78,14 +89,14 @@ public class IncidentController {
     public ResponseEntity<List<IncidentResponse>> getIncidentsByUser(@PathVariable Long userId) {
         List<Incident> incidents = incidentService.getIncidentsByUserId(userId);
         List<IncidentResponse> responses = new ArrayList<>();
-        
+
         for (Incident incident : incidents) {
             responses.add(convertToResponse(incident));
         }
-        
+
         return ResponseEntity.ok(responses);
     }
-    
+
     /**
      * Get incidents by status
      */
@@ -93,14 +104,14 @@ public class IncidentController {
     public ResponseEntity<List<IncidentResponse>> getIncidentsByStatus(@PathVariable String status) {
         List<Incident> incidents = incidentService.getIncidentsByStatus(status);
         List<IncidentResponse> responses = new ArrayList<>();
-        
+
         for (Incident incident : incidents) {
             responses.add(convertToResponse(incident));
         }
-        
+
         return ResponseEntity.ok(responses);
     }
-    
+
     /**
      * Update incident status
      */
@@ -113,10 +124,10 @@ public class IncidentController {
             return ResponseEntity.ok(convertToResponse(incident));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(Map.of("error", e.getMessage()));
+                    .body(Map.of("error", e.getMessage()));
         }
     }
-    
+
     /**
      * Helper method to convert Incident to IncidentResponse
      */
@@ -130,7 +141,7 @@ public class IncidentController {
         response.setTimestamp(incident.getTimestamp());
         response.setUserId(incident.getUser().getUserId());
         response.setUserName(incident.getUser().getName());
-        
+
         if (incident.getRiskAssessment() != null) {
             RiskAssessment ra = incident.getRiskAssessment();
             response.setCredibilityScore(ra.getCredibilityScore());
@@ -140,7 +151,7 @@ public class IncidentController {
             response.setRecommendedAction(ra.getRecommendedAction());
             response.setAnalysisDetails(ra.getAnalysisDetails());
         }
-        
+
         return response;
     }
 }
