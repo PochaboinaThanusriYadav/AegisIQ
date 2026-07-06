@@ -1,0 +1,21 @@
+description,category,severity
+Fire in warehouse,Fire,CRITICAL
+Smoke detected near electrical panel,Fire,HIGH
+Gas leakage reported in school corridor,Gas Leak,CRITICAL
+Road accident near main gate,Accident,MEDIUM
+Heavy rainfall causing water logging,Flood,HIGH
+Tree fell on road after storm,Natural,LOW
+Building collapsed after explosion,Structural,CRITICAL
+Suspicious package found at bus stand,Security,HIGH
+Minor parking dispute at mall,Complaint,LOW
+Factory machine exploded,Industrial,CRITICAL
+Person injured after slip and fall,Medical,MEDIUM
+Power outage in residential block,Infrastructure,MEDIUM
+Flood water entering basement,Flood,HIGH
+Fight broke out in market,Violence,MEDIUM
+Weapon seen near school,Violence,CRITICAL
+Electric short circuit in office,Fire,HIGH
+Vehicle collision on highway,Accident,MEDIUM
+Small kitchen fire extinguished,Fire,HIGH
+Noise complaint from apartment,Complaint,LOW
+Cyber threat detected on server,Security,HIGH

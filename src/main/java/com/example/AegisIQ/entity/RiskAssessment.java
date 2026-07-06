@@ -12,6 +12,8 @@ public class RiskAssessment {
     
     @Column(nullable = false)
     private Double credibilityScore; // 0-100
+
+    private Double aiConfidence; // 0-100
     
     @Column(nullable = false)
     private String severityLevel; // LOW, MEDIUM, HIGH
@@ -42,6 +44,14 @@ public class RiskAssessment {
 
     public void setCredibilityScore(Double credibilityScore) {
         this.credibilityScore = credibilityScore;
+    }
+
+    public Double getAiConfidence() {
+        return aiConfidence;
+    }
+
+    public void setAiConfidence(Double aiConfidence) {
+        this.aiConfidence = aiConfidence;
     }
 
     public String getSeverityLevel() {

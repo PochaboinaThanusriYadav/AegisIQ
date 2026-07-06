@@ -9,6 +9,23 @@ const api = axios.create({
   }
 });
 
+// Request interceptor to automatically attach authorization token
+api.interceptors.request.use(
+  (config) => {
+    const userStr = localStorage.getItem('user');
+    if (userStr) {
+      const user = JSON.parse(userStr);
+      if (user && user.accessToken) {
+        config.headers['Authorization'] = `Bearer ${user.accessToken}`;
+      }
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
 // Auth APIs
 export const login = (email, password) => {
   return api.post('/auth/login', { email, password });

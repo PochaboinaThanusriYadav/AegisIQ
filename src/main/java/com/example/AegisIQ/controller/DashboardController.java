@@ -115,9 +115,11 @@ public class DashboardController {
         if (incident.getRiskAssessment() != null) {
             RiskAssessment ra = incident.getRiskAssessment();
             response.setCredibilityScore(ra.getCredibilityScore());
+            response.setAiConfidence(ra.getAiConfidence());
             response.setSeverityLevel(ra.getSeverityLevel());
             response.setPriorityClassification(ra.getPriorityClassification());
             response.setRecommendedAction(ra.getRecommendedAction());
+            response.setAnalysisDetails(ra.getAnalysisDetails());
         }
 
         return response;

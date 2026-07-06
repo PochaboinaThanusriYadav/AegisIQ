@@ -250,6 +250,7 @@ function Dashboard({ user, onLogout }) {
                 <small>
                   Reported by: {incident.userName} | 
                   Credibility: {incident.credibilityScore ? `${incident.credibilityScore.toFixed(0)}%` : 'Pending'} | 
+                  AI Confidence: {incident.aiConfidence ? `${incident.aiConfidence.toFixed(0)}%` : 'Pending'} | 
                   Status: {incident.status}
                 </small>
               </div>

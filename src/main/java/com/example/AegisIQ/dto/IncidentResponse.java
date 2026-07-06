@@ -14,16 +14,18 @@ public class IncidentResponse {
     
     // Risk Assessment Details
     private Double credibilityScore;
+    private Double aiConfidence;
     private String severityLevel;
     private String priorityClassification;
     private String recommendedAction;
+    private String analysisDetails;
 
     public IncidentResponse() {}
 
     public IncidentResponse(Long incidentId, String description, String location, String imageUrl, 
                             String status, LocalDateTime timestamp, Long userId, String userName,
-                            Double credibilityScore, String severityLevel, 
-                            String priorityClassification, String recommendedAction) {
+                            Double credibilityScore, Double aiConfidence, String severityLevel, 
+                            String priorityClassification, String recommendedAction, String analysisDetails) {
         this.incidentId = incidentId;
         this.description = description;
         this.location = location;
@@ -33,9 +35,11 @@ public class IncidentResponse {
         this.userId = userId;
         this.userName = userName;
         this.credibilityScore = credibilityScore;
+        this.aiConfidence = aiConfidence;
         this.severityLevel = severityLevel;
         this.priorityClassification = priorityClassification;
         this.recommendedAction = recommendedAction;
+        this.analysisDetails = analysisDetails;
     }
 
     public Long getIncidentId() {
@@ -110,6 +114,14 @@ public class IncidentResponse {
         this.credibilityScore = credibilityScore;
     }
 
+    public Double getAiConfidence() {
+        return aiConfidence;
+    }
+
+    public void setAiConfidence(Double aiConfidence) {
+        this.aiConfidence = aiConfidence;
+    }
+
     public String getSeverityLevel() {
         return severityLevel;
     }
@@ -132,5 +144,13 @@ public class IncidentResponse {
 
     public void setRecommendedAction(String recommendedAction) {
         this.recommendedAction = recommendedAction;
+    }
+
+    public String getAnalysisDetails() {
+        return analysisDetails;
+    }
+
+    public void setAnalysisDetails(String analysisDetails) {
+        this.analysisDetails = analysisDetails;
     }
 }

@@ -33,3 +33,10 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Python Cache
+**/__pycache__/
+*.pyc
+
+# Local debug files
+git_log_status.txt

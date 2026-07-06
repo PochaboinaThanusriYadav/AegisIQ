@@ -106,6 +106,11 @@ function IncidentDetails({ user, onLogout }) {
               <div className={`risk-score ${getRiskScoreClass(incident.credibilityScore)}`}>
                 {incident.credibilityScore.toFixed(0)}%
               </div>
+              {incident.aiConfidence != null && (
+                <p style={{ marginTop: '0.75rem', color: '#666' }}>
+                  AI Confidence: <strong>{incident.aiConfidence.toFixed(0)}%</strong>
+                </p>
+              )}
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1.5rem' }}>
@@ -127,6 +132,13 @@ function IncidentDetails({ user, onLogout }) {
               <div className="recommended-action">
                 <strong>Recommended Action:</strong>
                 <p style={{ marginTop: '0.5rem' }}>{incident.recommendedAction}</p>
+              </div>
+            )}
+
+            {incident.analysisDetails && (
+              <div style={{ marginTop: '1rem' }}>
+                <strong>Analysis Details:</strong>
+                <p style={{ marginTop: '0.5rem', color: '#555' }}>{incident.analysisDetails}</p>
               </div>
             )}
           </div>
